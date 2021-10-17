@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Carrito de Compras
+{% endblock title %}
+
+{% block content %}
+<div class="py-4">
+    {% csrf_token %}
+    <div class="row">
+        <h2 class="h2">Carrito de Compras</h2>
+        {% for item in detalle_pedido %}
+        <div id="detalle_{{item.pk}}" class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-2">
+                    <img src="{{item.articulo.imagen.url}}" class="p-3 img-fluid rounded-start" alt="..." />
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{item.articulo.nombre}}</h5>
+                        <h3 class="h3">{{item.articulo.precio}}</h3>
+                        {% if item.articulo.cantidad > 0 %}
+                        <p>Disponible</p>
+                        {% else %}
+                        <p>No hay en stock</p>
+                        {% endif %}
+                        <div class="row d-inline">
+                            <div id="editar_{{item.pk}}" class="d-inline">
+                                <span>Cantidad: {{item.cantidad}}</span>
+                                <a href="#" data="{{item.pk}}" data-c="{{item.cantidad}}" class="btnEditar">Editar</a>
+                            </div>
+                            <div class="d-inline">
+                                <a class="btnEliminar" data="{{item.pk}}" href="#">Eliminar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <h3 class="h3">No hay productos en carrito</h3>
+        {% endfor %}
+        {% if detalle_pedido.count > 0 %}
+        <div id="tag_suma_total">
+            <h3 class="float-end h3">Subtotal(<div id="tag_total_items" class="d-inline">{{detalle_pedido.count}}</div> articulos) L. <div class="d-inline" id="tag_total">{{total.total}}</div></h3>
+        </div>
+        <div id="tag_boton_pago">
+            <a href="#" data="{{pedido.pk}}" class="float-end btn btn-primary">Realizar pago</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'carrito.js'%}"></script>
+{% endblock scripts %}

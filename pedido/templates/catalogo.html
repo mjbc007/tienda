@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Catalogo de Productos
+{% endblock title %}
+
+{% block content %}
+<div class="py-4">
+    {% csrf_token %}
+    <div class="row">
+        <h2 class="h2">Catalogo de Productos</h2>
+        {% for articulo in articulos %}
+        <div class="col-lg-3 mt-3 mb-3 text-center">
+            <div class="card">
+                <img src="{{articulo.imagen.url}}"
+                class="card-img-top p-4" alt="{{articulo.nombre}}">
+                <div class="card-body">
+                    <h4 class="card-title">{{articulo.nombre}}</h4>
+                    <p class="mb-1">L. {{articulo.precio}}</p>
+                    <p id="precio_{{articulo.pk}}" class="mb-1">Stock: {{articulo.cantidad}}</p>
+                    <a href="#" data="{{articulo.pk}}" class="btn btn-primary">Agregar</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'catalogo.js' %}"></script>
+{% endblock scripts %}

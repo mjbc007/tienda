@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Historial de Compras
+{% endblock title %}
+
+{% block content %}
+<div class="py-4">
+    <h2 class="h2">Historial de Compras</h2>
+    
+    {% for compra in compras %}
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-4"><p>Pedido realizado el {{compra.fecha_hora}}</p></div>
+                <div class="col-lg-4"><p>Total: L. {{compra.total_compra.total}}</p></div>
+                <div class="col-lg-4"><p>No. Pedido: {{compra.pk}}</p></div>
+            </div>
+        </div>
+        {% for detalle in compra.detalles %}
+        <div class="card-body row">
+            <div class="card mb-3 border-top-0 border-end-0 border-start-0">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        <img src="{{detalle.articulo.imagen.url}}" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Airpods Pro</h5>
+                            <h3 class="h3">L. {{detalle.precio}}</h3>
+                            <p>Cantidad pedida: {{detalle.cantidad}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
